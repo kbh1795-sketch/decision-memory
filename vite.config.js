@@ -4,6 +4,12 @@ import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  resolve: {
+    // Force a single copy of React/ReactDOM so hooks share one dispatcher.
+    // Without this, a transitive dependency can resolve its own nested React,
+    // causing "Cannot read properties of null (reading 'useState')".
+    dedupe: ['react', 'react-dom'],
+  },
   plugins: [
     base44({
       // Support for legacy code that imports the base44 SDK with @/integrations, @/entities, etc.
