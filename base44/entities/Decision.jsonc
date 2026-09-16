@@ -1,0 +1,188 @@
+{
+  "name": "Decision",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string"
+    },
+    "owner_id": {
+      "type": "string"
+    },
+    "owner_name": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "context": {
+      "type": "string"
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "selected_option": {
+      "type": "string"
+    },
+    "reasoning": {
+      "type": "string"
+    },
+    "expected_outcome": {
+      "type": "string"
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "correct",
+              "partially_correct",
+              "incorrect",
+              "unknown"
+            ],
+            "default": "unknown"
+          }
+        }
+      }
+    },
+    "expected_metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric_name": {
+            "type": "string"
+          },
+          "expected_value": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "confidence": {
+      "type": "number"
+    },
+    "category": {
+      "type": "string"
+    },
+    "decision_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "review_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "ready_for_review",
+        "reviewed"
+      ],
+      "default": "active"
+    },
+    "outcome": {
+      "type": "object",
+      "properties": {
+        "actual_outcome": {
+          "type": "string"
+        },
+        "actual_metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "metric_name": {
+                "type": "string"
+              },
+              "actual_value": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "result": {
+          "type": "string",
+          "enum": [
+            "better",
+            "as_expected",
+            "worse",
+            "mixed"
+          ]
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "learning": {
+          "type": "string"
+        },
+        "reviewed_at": {
+          "type": "string"
+        }
+      }
+    },
+    "ai_review": {
+      "type": "object",
+      "properties": {
+        "what_happened": {
+          "type": "string"
+        },
+        "largest_error": {
+          "type": "string"
+        },
+        "incorrect_assumption": {
+          "type": "string"
+        },
+        "predicted_correctly": {
+          "type": "string"
+        },
+        "lesson": {
+          "type": "string"
+        },
+        "generated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "author_name": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "title"
+  ]
+}
