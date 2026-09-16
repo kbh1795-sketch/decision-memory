@@ -124,18 +124,18 @@ export default function Insights() {
 
   const hasData = reviewed.length >= 2;
 
-  if (decisions === null) return <div className="p-8 text-sm text-slate-400">Loading…</div>;
+  if (decisions === null) return <div className="p-8 text-sm text-slate-400">로딩 중…</div>;
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8 md:py-10">
       <div className="flex items-end justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Decision Patterns</h1>
-          <p className="mt-1 text-sm text-slate-500">{reviewed.length} reviewed decisions analysed. Patterns are only shown when supported by data.</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">결정 패턴</h1>
+          <p className="mt-1 text-sm text-slate-500">{reviewed.length}개 검토된 결정 분석됨. 패턴은 데이터가 뒷받침될 때만 표시됩니다.</p>
         </div>
         <Button onClick={generate} disabled={generating}>
           {generating ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-          {generating ? "Analysing…" : "Re-run analysis"}
+          {generating ? "분석 중…" : "재분석"}
         </Button>
       </div>
 
@@ -144,7 +144,7 @@ export default function Insights() {
           <CardContent className="p-5 flex items-start gap-3">
             <AlertCircle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
             <div className="text-sm text-slate-600">
-              <span className="font-medium text-slate-900">Insufficient data.</span> At least 2 reviewed decisions are needed to detect patterns. You currently have {reviewed.length}.
+              <span className="font-medium text-slate-900">데이터 부족.</span> 패턴을 감지하려면 최소 2개의 검토된 결정이 필요합니다. 현재 {reviewed.length}개 있습니다.
             </div>
           </CardContent>
         </Card>
@@ -156,9 +156,9 @@ export default function Insights() {
 
       {/* Recurring patterns (AI) */}
       <section className="mt-8">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Recurring patterns</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">반복되는 패턴</h2>
         {insights.length === 0 ? (
-          <Card><CardContent className="p-8 text-center text-sm text-slate-400">No patterns detected yet. Click “Re-run analysis” after reviewing decisions.</CardContent></Card>
+          <Card><CardContent className="p-8 text-center text-sm text-slate-400">아직 감지된 패턴이 없습니다. 결정을 검토한 후 “재분석”을 클릭하세요.</CardContent></Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {insights.map((i) => <InsightCard key={i.id} insight={i} />)}
@@ -168,19 +168,19 @@ export default function Insights() {
 
       {/* Forecast accuracy */}
       <section className="mt-10">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Forecast accuracy</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">예측 정확도</h2>
         {metricGroups.length === 0 ? (
-          <EmptyChart message="No matched expected/actual metrics yet." />
+          <EmptyChart message="아직 일치하는 예상/실제 지표가 없습니다." />
         ) : (
           <Card>
-            <CardHeader><CardDescription>Average % difference between expected and actual values. Positive (red) = actual exceeded expectation; negative (green) = actual came in lower.</CardDescription></CardHeader>
+            <CardHeader><CardDescription>예상값과 실제값의 평균 % 차이. 양수(빨강) = 실제가 예상을 초과, 음수(초록) = 실제가 더 낮음.</CardDescription></CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={280}>
                 <BarChart data={metricGroups} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
                   <XAxis dataKey="name" tick={{ fontSize: 12, fill: "#64748b" }} />
                   <YAxis tick={{ fontSize: 12, fill: "#64748b" }} unit="%" />
-                  <Tooltip formatter={(v) => [`${v.toFixed(0)}%`, "Avg deviation"]} contentStyle={{ borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 12 }} />
+                  <Tooltip formatter={(v) => [`${v.toFixed(0)}%`, "평균 편차"]} contentStyle={{ borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 12 }} />
                   <Bar dataKey="avg" radius={[4, 4, 0, 0]}>
                     {metricGroups.map((g, i) => <Cell key={i} fill={g.avg > 0 ? "#e11d48" : "#059669"} />)}
                   </Bar>
@@ -194,9 +194,9 @@ export default function Insights() {
       <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Confidence calibration */}
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Confidence calibration</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">신뢰도 보정</h2>
           {calibration.length === 0 ? (
-            <EmptyChart message="No reviewed decisions yet." />
+            <EmptyChart message="아직 검토된 결정이 없습니다." />
           ) : (
             <Card>
               <CardContent className="pt-6">
@@ -205,11 +205,11 @@ export default function Insights() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
                     <XAxis dataKey="range" tick={{ fontSize: 12, fill: "#64748b" }} />
                     <YAxis tick={{ fontSize: 12, fill: "#64748b" }} unit="%" domain={[0, 100]} />
-                    <Tooltip formatter={(v) => [`${v}%`, "Succeeded as/better than expected"]} contentStyle={{ borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 12 }} />
+                    <Tooltip formatter={(v) => [`${v}%`, "예상과 일치 또는 더 좋음"]} contentStyle={{ borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 12 }} />
                     <Bar dataKey="successRate" fill="#4f46e5" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
-                <p className="mt-2 text-xs text-slate-400">Success rate = share of decisions that came in as-expected or better. Well-calibrated confidence tracks the 100% line.</p>
+                <p className="mt-2 text-xs text-slate-400">성공률 = 예상과 일치하거나 더 나은 결정의 비율. 잘 보정된 신뢰도는 100% 선을 따라갑니다.</p>
               </CardContent>
             </Card>
           )}
@@ -217,9 +217,9 @@ export default function Insights() {
 
         {/* Category performance radar */}
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Category performance</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">카테고리 성과</h2>
           {categoryData.length === 0 ? (
-            <EmptyChart message="No reviewed decisions yet." />
+            <EmptyChart message="아직 검토된 결정이 없습니다." />
           ) : (
             <Card>
               <CardContent className="pt-6">
@@ -228,11 +228,11 @@ export default function Insights() {
                     <PolarGrid stroke="#e2e8f0" />
                     <PolarAngleAxis dataKey="name" tick={{ fontSize: 11, fill: "#64748b" }} />
                     <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 10, fill: "#94a3b8" }} />
-                    <Radar name="Success rate" dataKey="successRate" stroke="#0f766e" fill="#0f766e" fillOpacity={0.3} />
+                    <Radar name="성공률" dataKey="successRate" stroke="#0f766e" fill="#0f766e" fillOpacity={0.3} />
                     <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 12 }} />
                   </RadarChart>
                 </ResponsiveContainer>
-                <p className="mt-2 text-xs text-slate-400">Success rate by category — where your estimates tend to be accurate.</p>
+                <p className="mt-2 text-xs text-slate-400">카테고리별 성공률 — 예측이 정확한 경향이 있는 영역.</p>
               </CardContent>
             </Card>
           )}
@@ -242,26 +242,26 @@ export default function Insights() {
       {/* Strongest / weakest */}
       <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Strongest decision categories</h2>
-          {strongest.length === 0 ? <EmptyChart message="No data yet." /> : (
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">가장 강한 결정 카테고리</h2>
+          {strongest.length === 0 ? <EmptyChart message="아직 데이터가 없습니다." /> : (
             <Card><CardContent className="pt-6 space-y-2">
               {strongest.slice(0, 3).map((c) => (
                 <div key={c.name} className="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2">
                   <span className="text-sm font-medium text-slate-700">{c.name}</span>
-                  <span className="text-xs text-slate-500">{c.successRate}% on target · avg error {c.avgError}% · {c.total} decisions</span>
+                  <span className="text-xs text-slate-500">{c.successRate}% 적중 · 평균 오차 {c.avgError}% · {c.total}개 결정</span>
                 </div>
               ))}
             </CardContent></Card>
           )}
         </section>
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Weakest forecast areas</h2>
-          {weakest.length === 0 ? <EmptyChart message="No data yet." /> : (
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">가장 약한 예측 영역</h2>
+          {weakest.length === 0 ? <EmptyChart message="아직 데이터가 없습니다." /> : (
             <Card><CardContent className="pt-6 space-y-2">
               {weakest.slice(0, 3).map((c) => (
                 <div key={c.name} className="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2">
                   <span className="text-sm font-medium text-slate-700">{c.name}</span>
-                  <span className="text-xs text-slate-500">{c.successRate}% on target · avg error {c.avgError}% · {c.total} decisions</span>
+                  <span className="text-xs text-slate-500">{c.successRate}% 적중 · 평균 오차 {c.avgError}% · {c.total}개 결정</span>
                 </div>
               ))}
             </CardContent></Card>
@@ -271,15 +271,15 @@ export default function Insights() {
 
       {/* Common failed assumptions */}
       <section className="mt-10 mb-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Common failed assumptions</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">공통 실패 가정</h2>
         {failedAssumptions.length === 0 ? (
-          <EmptyChart message="No recurring assumptions (2+ occurrences) yet." />
+          <EmptyChart message="아직 반복되는 가정(2회 이상)이 없습니다." />
         ) : (
           <Card><CardContent className="pt-6 space-y-2">
             {failedAssumptions.map((a, i) => (
               <div key={i} className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 px-3 py-2">
                 <span className="text-sm text-slate-700">“{a.text}”</span>
-                <span className="text-xs text-slate-500 shrink-0">{a.incorrect} incorrect · {a.partially} partial · {a.correct} correct (of {a.total})</span>
+                <span className="text-xs text-slate-500 shrink-0">틀림 {a.incorrect} · 부분 {a.partially} · 맞음 {a.correct} (총 {a.total})</span>
               </div>
             ))}
           </CardContent></Card>

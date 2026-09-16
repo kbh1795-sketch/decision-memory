@@ -22,7 +22,7 @@ export default function DecisionDetail() {
   };
   useEffect(() => { load(); }, [id]);
 
-  if (!decision) return <div className="p-8 text-sm text-slate-400">Loading…</div>;
+  if (!decision) return <div className="p-8 text-sm text-slate-400">로딩 중…</div>;
 
   const status = computeStatus(decision);
   const statusMeta = STATUS_META[status];
@@ -43,7 +43,7 @@ export default function DecisionDetail() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-8 md:py-10">
       <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="mb-4 text-slate-500">
-        <ArrowLeft className="h-4 w-4" /> Dashboard
+        <ArrowLeft className="h-4 w-4" /> 대시보드
       </Button>
 
       <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -55,24 +55,24 @@ export default function DecisionDetail() {
           <h1 className="mt-1.5 text-2xl font-semibold tracking-tight text-slate-900">{decision.title}</h1>
         </div>
         {status === "ready_for_review" && (
-          <Button onClick={() => navigate(`/decisions/${id}/review`)}>Review outcome</Button>
+          <Button onClick={() => navigate(`/decisions/${id}/review`)}>결과 검토</Button>
         )}
       </div>
 
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <Card>
-            <CardHeader><CardTitle className="text-base">Original record</CardTitle>
-              <CardDescription className="flex items-center gap-1.5"><Lock className="h-3 w-3" /> Preserved as recorded — hindsight does not rewrite what was originally believed.</CardDescription>
+            <CardHeader><CardTitle className="text-base">원본 기록</CardTitle>
+              <CardDescription className="flex items-center gap-1.5"><Lock className="h-3 w-3" /> 기록된 대로 보존됨 — 사후 판단이 원래 믿었던 것을 다시 쓰지 않습니다.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-5 text-sm">
-              <Field label="Context" value={decision.context} />
-              <Field label="Options considered" value={decision.options && decision.options.length ? decision.options.map((o) => o.name).join(" · ") : null} />
-              <Field label="Selected option" value={decision.selected_option} highlight />
-              <Field label="Reasoning" value={decision.reasoning} />
-              <Field label="Expected outcome" value={decision.expected_outcome} />
+              <Field label="배경" value={decision.context} />
+              <Field label="검토한 선택지" value={decision.options && decision.options.length ? decision.options.map((o) => o.name).join(" · ") : null} />
+              <Field label="선택한 옵션" value={decision.selected_option} highlight />
+              <Field label="추론" value={decision.reasoning} />
+              <Field label="예상 결과" value={decision.expected_outcome} />
               <div>
-                <div className="text-[11px] uppercase tracking-wide text-slate-400 mb-1.5">Assumptions</div>
+                <div className="text-[11px] uppercase tracking-wide text-slate-400 mb-1.5">가정</div>
                 {decision.assumptions && decision.assumptions.length ? (
                   <ul className="space-y-1.5">
                     {decision.assumptions.map((a, i) => (
@@ -84,7 +84,7 @@ export default function DecisionDetail() {
                 ) : <span className="text-slate-400">—</span>}
               </div>
               <div>
-                <div className="text-[11px] uppercase tracking-wide text-slate-400 mb-1.5">Expected metrics</div>
+                <div className="text-[11px] uppercase tracking-wide text-slate-400 mb-1.5">예상 지표</div>
                 {decision.expected_metrics && decision.expected_metrics.length ? (
                   <div className="flex flex-wrap gap-2">
                     {decision.expected_metrics.map((m, i) => (
@@ -96,9 +96,9 @@ export default function DecisionDetail() {
                 ) : <span className="text-slate-400">—</span>}
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
-                <Mini label="Confidence" value={decision.confidence != null ? `${decision.confidence}%` : "—"} />
-                <Mini label="Decision date" value={formatDate(decision.decision_date)} />
-                <Mini label="Review date" value={formatDate(decision.review_date)} />
+                <Mini label="신뢰도" value={decision.confidence != null ? `${decision.confidence}%` : "—"} />
+                <Mini label="결정일" value={formatDate(decision.decision_date)} />
+                <Mini label="검토일" value={formatDate(decision.review_date)} />
               </div>
             </CardContent>
           </Card>
@@ -107,15 +107,15 @@ export default function DecisionDetail() {
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">Outcome review</CardTitle>
+                  <CardTitle className="text-base">결과 검토</CardTitle>
                   {resultMeta && <span className={cx("inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-medium", resultMeta.className)}>{resultMeta.label}</span>}
                 </div>
               </CardHeader>
               <CardContent className="space-y-5 text-sm">
-                <Field label="What actually happened" value={decision.outcome.actual_outcome} />
+                <Field label="실제 어떤 일이 있었나요" value={decision.outcome.actual_outcome} />
                 {decision.outcome.actual_metrics && decision.outcome.actual_metrics.length > 0 && (
                   <div>
-                    <div className="text-[11px] uppercase tracking-wide text-slate-400 mb-2">Expected vs actual</div>
+                    <div className="text-[11px] uppercase tracking-wide text-slate-400 mb-2">예상 vs 실제</div>
                     <div className="space-y-2">
                       {decision.outcome.actual_metrics.map((m, i) => {
                         const exp = (decision.expected_metrics || []).find((e) => e.metric_name.trim().toLowerCase() === m.metric_name.trim().toLowerCase());
@@ -124,7 +124,7 @@ export default function DecisionDetail() {
                           <div key={i} className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50/50 px-3 py-2">
                             <span className="text-slate-700 font-medium">{m.metric_name}</span>
                             <div className="flex items-center gap-3 text-xs">
-                              <span className="text-slate-400">exp {exp ? `${exp.expected_value}${exp.unit ? " " + exp.unit : ""}` : "—"}</span>
+                              <span className="text-slate-400">예상 {exp ? `${exp.expected_value}${exp.unit ? " " + exp.unit : ""}` : "—"}</span>
                               <span className="text-slate-900 font-semibold">{m.actual_value}{m.unit ? " " + m.unit : ""}</span>
                               {diff !== null && (
                                 <span className={cx("font-semibold", diff > 0 ? "text-rose-600" : diff < 0 ? "text-emerald-600" : "text-slate-500")}>
@@ -139,7 +139,7 @@ export default function DecisionDetail() {
                   </div>
                 )}
                 <div>
-                  <div className="text-[11px] uppercase tracking-wide text-slate-400 mb-2">Were the assumptions correct?</div>
+                  <div className="text-[11px] uppercase tracking-wide text-slate-400 mb-2">가정이 맞았나요?</div>
                   <div className="space-y-2">
                     {decision.assumptions.map((a, i) => {
                       const meta = ASSUMPTION_META[a.result || "unknown"];
@@ -152,8 +152,8 @@ export default function DecisionDetail() {
                     })}
                   </div>
                 </div>
-                <Field label="What caused the difference" value={decision.outcome.explanation} />
-                <Field label="What you learned" value={decision.outcome.learning} />
+                <Field label="차이의 원인" value={decision.outcome.explanation} />
+                <Field label="배운 점" value={decision.outcome.learning} />
               </CardContent>
             </Card>
           )}
@@ -163,25 +163,25 @@ export default function DecisionDetail() {
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-violet-600" />
-                  <CardTitle className="text-base">AI decision review</CardTitle>
+                  <CardTitle className="text-base">AI 결정 검토</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4 text-sm">
-                <AIField label="What happened" value={decision.ai_review.what_happened} />
-                <AIField label="Largest estimation error" value={decision.ai_review.largest_error} />
-                <AIField label="Incorrect assumption" value={decision.ai_review.incorrect_assumption} />
-                <AIField label="What was predicted correctly" value={decision.ai_review.predicted_correctly} />
-                <AIField label="Lesson" value={decision.ai_review.lesson} />
+                <AIField label="무슨 일이 있었나요" value={decision.ai_review.what_happened} />
+                <AIField label="가장 큰 추정 오류" value={decision.ai_review.largest_error} />
+                <AIField label="틀린 가정" value={decision.ai_review.incorrect_assumption} />
+                <AIField label="올바르게 예측한 것" value={decision.ai_review.predicted_correctly} />
+                <AIField label="교훈" value={decision.ai_review.lesson} />
               </CardContent>
             </Card>
           )}
 
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-2"><MessageSquare className="h-4 w-4 text-slate-500" /><CardTitle className="text-base">Comments</CardTitle></div>
+              <div className="flex items-center gap-2"><MessageSquare className="h-4 w-4 text-slate-500" /><CardTitle className="text-base">댓글</CardTitle></div>
             </CardHeader>
             <CardContent className="space-y-3">
-              {(decision.comments || []).length === 0 && <p className="text-sm text-slate-400">No comments yet.</p>}
+              {(decision.comments || []).length === 0 && <p className="text-sm text-slate-400">댓글이 없습니다.</p>}
               {(decision.comments || []).map((c, i) => (
                 <div key={i} className="rounded-lg bg-slate-50 px-3 py-2">
                   <div className="text-xs font-medium text-slate-500">{c.author_name} · {formatDate(c.created_at)}</div>
@@ -190,7 +190,7 @@ export default function DecisionDetail() {
               ))}
               <Separator />
               <div className="flex gap-2">
-                <Textarea rows={2} placeholder="Add a comment…" value={comment} onChange={(e) => setComment(e.target.value)} />
+                <Textarea rows={2} placeholder="댓글 추가…" value={comment} onChange={(e) => setComment(e.target.value)} />
                 <Button onClick={addComment} disabled={posting || !comment.trim()} className="self-end" size="icon"><Send className="h-4 w-4" /></Button>
               </div>
             </CardContent>
@@ -199,7 +199,7 @@ export default function DecisionDetail() {
 
         <div className="lg:col-span-1">
           <Card>
-            <CardHeader><CardTitle className="text-base">Timeline</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-base">타임라인</CardTitle></CardHeader>
             <CardContent>
               <Timeline decision={decision} />
             </CardContent>

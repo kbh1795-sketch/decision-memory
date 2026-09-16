@@ -32,26 +32,26 @@ export default function DecisionCard({ decision }) {
 
           <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
             <div>
-              <div className="text-slate-400">Owner</div>
-              <div className="text-slate-700 font-medium truncate">{decision.owner_name || "You"}</div>
+              <div className="text-slate-400">담당자</div>
+              <div className="text-slate-700 font-medium truncate">{decision.owner_name || "본인"}</div>
             </div>
             <div>
-              <div className="text-slate-400">Confidence</div>
+              <div className="text-slate-400">신뢰도</div>
               <div className="text-slate-700 font-medium">{decision.confidence != null ? `${decision.confidence}%` : "—"}</div>
             </div>
             <div>
-              <div className="text-slate-400">Decided</div>
+              <div className="text-slate-400">결정일</div>
               <div className="text-slate-700 font-medium">{formatDate(decision.decision_date)}</div>
             </div>
             <div>
-              <div className="text-slate-400">Review</div>
+              <div className="text-slate-400">검토일</div>
               <div className="text-slate-700 font-medium">{formatDate(decision.review_date)}</div>
             </div>
           </div>
 
           {decision.expected_metrics && decision.expected_metrics.length > 0 && (
             <div className="mt-4 pt-3 border-t border-slate-100">
-              <div className="text-[11px] uppercase tracking-wide text-slate-400 mb-1.5">Expected outcome</div>
+              <div className="text-[11px] uppercase tracking-wide text-slate-400 mb-1.5">예상 결과</div>
               <p className="text-sm text-slate-600 line-clamp-2">
                 {decision.expected_metrics.map((m) => `${m.metric_name}: ${m.expected_value}${m.unit ? " " + m.unit : ""}`).join("  ·  ")}
               </p>

@@ -29,7 +29,7 @@ export default function Dashboard() {
   }, []);
 
   if (decisions === null) {
-    return <div className="p-8 text-sm text-slate-400">Loading…</div>;
+    return <div className="p-8 text-sm text-slate-400">로딩 중…</div>;
   }
 
   const active = decisions.filter((d) => computeStatus(d) === "active");
@@ -40,27 +40,27 @@ export default function Dashboard() {
     <div className="max-w-6xl mx-auto px-6 py-8 md:py-10">
       <div className="flex items-end justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Dashboard</h1>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">대시보드</h1>
           <p className="mt-1 text-sm text-slate-500">
-            {user?.full_name ? `${user.full_name} · ` : ""}{decisions.length} decisions recorded, {reviewed.length} reviewed.
+            {user?.full_name ? `${user.full_name} · ` : ""}{decisions.length}개 결정 기록됨, {reviewed.length}개 검토 완료.
           </p>
         </div>
         <Button asChild>
-          <Link to="/new"><PlusCircle className="h-4 w-4" /> New Decision</Link>
+          <Link to="/new"><PlusCircle className="h-4 w-4" /> 새 결정</Link>
         </Button>
       </div>
 
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StatCard icon={ClipboardList} label="Active decisions" value={active.length} tone="slate" />
-        <StatCard icon={CalendarClock} label="Ready for review" value={ready.length} tone="amber" />
-        <StatCard icon={Sparkles} label="Patterns detected" value={insights.length} tone="violet" />
+        <StatCard icon={ClipboardList} label="진행 중인 결정" value={active.length} tone="slate" />
+        <StatCard icon={CalendarClock} label="검토 대기" value={ready.length} tone="amber" />
+        <StatCard icon={Sparkles} label="감지된 패턴" value={insights.length} tone="violet" />
       </div>
 
       {ready.length > 0 && (
         <section className="mt-10">
           <div className="flex items-center gap-2 mb-3">
             <AlertCircle className="h-4 w-4 text-amber-600" />
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Ready for review</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">검토 대기</h2>
           </div>
           <div className="space-y-3">
             {ready.map((d) => (
@@ -68,17 +68,17 @@ export default function Dashboard() {
                 <CardContent className="p-5 flex items-center justify-between gap-4 flex-wrap">
                   <div className="min-w-0">
                     <div className="text-[11px] uppercase tracking-wide text-amber-700 font-medium">
-                      Review due {formatDate(d.review_date)}
+                      검토 예정 {formatDate(d.review_date)}
                     </div>
                     <h3 className="mt-0.5 text-[15px] font-semibold text-slate-900">{d.title}</h3>
                     {d.expected_metrics && d.expected_metrics.length > 0 && (
                       <p className="mt-1 text-sm text-slate-500">
-                        Expected: {d.expected_metrics.map((m) => `${m.metric_name} ${m.expected_value}${m.unit ? " " + m.unit : ""}`).join("  ·  ")}
+                        예상: {d.expected_metrics.map((m) => `${m.metric_name} ${m.expected_value}${m.unit ? " " + m.unit : ""}`).join("  ·  ")}
                       </p>
                     )}
                   </div>
                   <Button asChild variant="default" className="shrink-0">
-                    <Link to={`/decisions/${d.id}/review`}>Review outcome <ArrowRight className="h-4 w-4" /></Link>
+                    <Link to={`/decisions/${d.id}/review`}>결과 검토 <ArrowRight className="h-4 w-4" /></Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -88,9 +88,9 @@ export default function Dashboard() {
       )}
 
       <section className="mt-10">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Active decisions</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">진행 중인 결정</h2>
         {active.length === 0 ? (
-          <EmptyState message="No active decisions. Record your next decision to start building memory." />
+          <EmptyState message="진행 중인 결정이 없습니다. 다음 결정을 기록하여 메모리를 쌓아보세요." />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {active.map((d) => <DecisionCard key={d.id} decision={d} />)}
@@ -100,13 +100,13 @@ export default function Dashboard() {
 
       <section className="mt-10">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Recent patterns</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">최근 패턴</h2>
           <Link to="/insights" className="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1">
-            View all <ArrowRight className="h-3.5 w-3.5" />
+            전체 보기 <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
         {insights.length === 0 ? (
-          <EmptyState message="No patterns yet. Patterns appear once decisions are reviewed and analysed." />
+          <EmptyState message="아직 패턴이 없습니다. 결정이 검토되고 분석되면 패턴이 나타납니다." />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {insights.slice(0, 4).map((i) => <InsightCard key={i.id} insight={i} />)}

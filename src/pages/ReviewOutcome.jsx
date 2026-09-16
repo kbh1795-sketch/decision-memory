@@ -29,7 +29,7 @@ export default function ReviewOutcome() {
     })();
   }, [id]);
 
-  if (!decision) return <div className="p-8 text-sm text-slate-400">Loading…</div>;
+  if (!decision) return <div className="p-8 text-sm text-slate-400">로딩 중…</div>;
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -63,30 +63,30 @@ export default function ReviewOutcome() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-8 md:py-10">
       <Button variant="ghost" size="sm" onClick={() => navigate(`/decisions/${id}`)} className="mb-4 text-slate-500">
-        <ArrowLeft className="h-4 w-4" /> Back to decision
+        <ArrowLeft className="h-4 w-4" /> 결정으로 돌아가기
       </Button>
-      <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Record outcome</h1>
-      <p className="mt-1 text-sm text-slate-500">Decision made on {formatDate(decision.decision_date)} · review due {formatDate(decision.review_date)}.</p>
+      <h1 className="text-2xl font-semibold tracking-tight text-slate-900">결과 기록</h1>
+      <p className="mt-1 text-sm text-slate-500">결정일 {formatDate(decision.decision_date)} · 검토 예정 {formatDate(decision.review_date)}.</p>
 
       <form onSubmit={submit} className="mt-8 space-y-6">
         <Card>
           <CardHeader><CardTitle className="text-base">{decision.title}</CardTitle></CardHeader>
           <CardContent className="text-sm text-slate-500">
-            {decision.expected_outcome && <p><span className="text-slate-400">You expected: </span>{decision.expected_outcome}</p>}
+            {decision.expected_outcome && <p><span className="text-slate-400">예상한 결과: </span>{decision.expected_outcome}</p>}
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader><CardTitle className="text-base">What actually happened?</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">실제 어떤 일이 있었나요?</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label>Actual outcome</Label>
-              <Textarea className="mt-1.5" rows={3} placeholder="Describe what really happened." value={form.actual_outcome} onChange={(e) => set("actual_outcome", e.target.value)} />
+              <Label>실제 결과</Label>
+              <Textarea className="mt-1.5" rows={3} placeholder="실제 일어난 일을 설명하세요." value={form.actual_outcome} onChange={(e) => set("actual_outcome", e.target.value)} />
             </div>
             <div>
-              <Label>Actual metrics — match against your expectations</Label>
+              <Label>실제 지표 — 예상과 비교</Label>
               {actualMetrics.length === 0 ? (
-                <p className="text-sm text-slate-400 mt-1.5">No expected metrics were recorded for this decision.</p>
+                <p className="text-sm text-slate-400 mt-1.5">이 결정에 기록된 예상 지표가 없습니다.</p>
               ) : (
                 <div className="mt-1.5 space-y-2">
                   {actualMetrics.map((m, i) => {
@@ -96,9 +96,9 @@ export default function ReviewOutcome() {
                       <div key={i} className="grid grid-cols-12 gap-2 items-center">
                         <div className="col-span-5">
                           <div className="text-sm font-medium text-slate-700">{m.metric_name}</div>
-                          <div className="text-xs text-slate-400">expected {exp ? `${exp.expected_value}${exp.unit ? " " + exp.unit : ""}` : "—"}</div>
+                          <div className="text-xs text-slate-400">예상 {exp ? `${exp.expected_value}${exp.unit ? " " + exp.unit : ""}` : "—"}</div>
                         </div>
-                        <Input className="col-span-4" type="text" inputMode="decimal" placeholder="Actual value" value={m.actual_value} onChange={(e) => setActualMetrics((arr) => arr.map((x, j) => j === i ? { ...x, actual_value: e.target.value } : x))} />
+                        <Input className="col-span-4" type="text" inputMode="decimal" placeholder="실제 값" value={m.actual_value} onChange={(e) => setActualMetrics((arr) => arr.map((x, j) => j === i ? { ...x, actual_value: e.target.value } : x))} />
                         <div className="col-span-3 text-right text-xs">
                           {diff !== null && (
                             <span className={cx("font-semibold", diff > 0 ? "text-rose-600" : diff < 0 ? "text-emerald-600" : "text-slate-500")}>
@@ -113,14 +113,14 @@ export default function ReviewOutcome() {
               )}
             </div>
             <div>
-              <Label>Result</Label>
+              <Label>결과</Label>
               <Select value={form.result} onValueChange={(v) => set("result", v)}>
                 <SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="better">Better than expected</SelectItem>
-                  <SelectItem value="as_expected">As expected</SelectItem>
-                  <SelectItem value="worse">Worse than expected</SelectItem>
-                  <SelectItem value="mixed">Mixed</SelectItem>
+                  <SelectItem value="better">예상보다 좋음</SelectItem>
+                  <SelectItem value="as_expected">예상과 일치</SelectItem>
+                  <SelectItem value="worse">예상보다 나쁨</SelectItem>
+                  <SelectItem value="mixed">혼합</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -128,11 +128,11 @@ export default function ReviewOutcome() {
         </Card>
 
         <Card>
-          <CardHeader><CardTitle className="text-base">Assumptions & learning</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">가정 및 학습</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             {assumptions.length > 0 && (
               <div>
-                <Label>Were the original assumptions correct?</Label>
+                <Label>원래 가정이 맞았나요?</Label>
                 <div className="mt-2 space-y-2">
                   {assumptions.map((a, i) => (
                     <div key={i} className="flex items-center justify-between gap-3 flex-wrap">
@@ -140,10 +140,10 @@ export default function ReviewOutcome() {
                       <Select value={a.result} onValueChange={(v) => setAssumptions((arr) => arr.map((x, j) => j === i ? { ...x, result: v } : x))}>
                         <SelectTrigger className="w-44 h-8 text-xs"><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="correct">Correct</SelectItem>
-                          <SelectItem value="partially_correct">Partially correct</SelectItem>
-                          <SelectItem value="incorrect">Incorrect</SelectItem>
-                          <SelectItem value="unknown">Unknown</SelectItem>
+                          <SelectItem value="correct">맞음</SelectItem>
+                          <SelectItem value="partially_correct">부분적으로 맞음</SelectItem>
+                          <SelectItem value="incorrect">틀림</SelectItem>
+                          <SelectItem value="unknown">미정</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -152,21 +152,21 @@ export default function ReviewOutcome() {
               </div>
             )}
             <div>
-              <Label>What caused the difference?</Label>
+              <Label>차이의 원인은 무엇인가요?</Label>
               <Textarea className="mt-1.5" rows={3} value={form.explanation} onChange={(e) => set("explanation", e.target.value)} />
             </div>
             <div>
-              <Label>What did you learn? (optional)</Label>
+              <Label>무엇을 배웠나요? (선택)</Label>
               <Textarea className="mt-1.5" rows={2} value={form.learning} onChange={(e) => set("learning", e.target.value)} />
             </div>
           </CardContent>
         </Card>
 
         <div className="flex items-center justify-between gap-3">
-          <p className="text-xs text-slate-400 flex items-center gap-1.5"><Sparkles className="h-3.5 w-3.5 text-violet-500" /> An AI review will be generated automatically.</p>
+          <p className="text-xs text-slate-400 flex items-center gap-1.5"><Sparkles className="h-3.5 w-3.5 text-violet-500" /> AI 검토가 자동으로 생성됩니다.</p>
           <div className="flex gap-3">
-            <Button type="button" variant="outline" onClick={() => navigate(`/decisions/${id}`)}>Cancel</Button>
-            <Button type="submit" disabled={saving}>{saving || generating ? (generating ? "Generating AI review…" : "Saving…") : "Save & generate review"}</Button>
+            <Button type="button" variant="outline" onClick={() => navigate(`/decisions/${id}`)}>취소</Button>
+            <Button type="submit" disabled={saving}>{saving || generating ? (generating ? "AI 검토 생성 중…" : "저장 중…") : "저장 및 검토 생성"}</Button>
           </div>
         </div>
       </form>

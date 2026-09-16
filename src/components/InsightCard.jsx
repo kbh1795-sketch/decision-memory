@@ -13,13 +13,13 @@ const TYPE_ICON = {
 };
 
 const TYPE_LABEL = {
-  estimation_bias: "Estimation bias",
-  confidence_calibration: "Confidence calibration",
-  category_performance: "Category performance",
-  assumption_failure: "Assumption failure",
-  cost_bias: "Cost bias",
-  decision_speed: "Decision speed",
-  other: "Pattern",
+  estimation_bias: "추정 편향",
+  confidence_calibration: "신뢰도 보정",
+  category_performance: "카테고리 성과",
+  assumption_failure: "가정 실패",
+  cost_bias: "비용 편향",
+  decision_speed: "결정 속도",
+  other: "패턴",
 };
 
 export default function InsightCard({ insight }) {
@@ -34,9 +34,9 @@ export default function InsightCard({ insight }) {
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
               <Badge variant="outline" className="text-[11px] font-medium border-slate-200 text-slate-500">
-                {TYPE_LABEL[insight.type] || "Pattern"}
+                {TYPE_LABEL[insight.type] || "패턴"}
               </Badge>
-              <span className="text-[11px] text-slate-400">{insight.evidence_count} decisions</span>
+              <span className="text-[11px] text-slate-400">{insight.evidence_count}개 결정</span>
             </div>
             <h3 className="mt-1.5 text-[15px] font-semibold text-slate-900 leading-snug">{insight.title}</h3>
             <p className="mt-1 text-sm text-slate-600 leading-relaxed">{insight.description}</p>

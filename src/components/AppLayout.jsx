@@ -3,9 +3,9 @@ import { Brain, LayoutDashboard, PlusCircle, LineChart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const nav = [
-  { label: "Dashboard", to: "/", icon: LayoutDashboard },
-  { label: "New Decision", to: "/new", icon: PlusCircle },
-  { label: "Decision Patterns", to: "/insights", icon: LineChart },
+  { label: "대시보드", to: "/", icon: LayoutDashboard },
+  { label: "새 결정", to: "/new", icon: PlusCircle },
+  { label: "결정 패턴", to: "/insights", icon: LineChart },
 ];
 
 export default function AppLayout() {
@@ -18,8 +18,8 @@ export default function AppLayout() {
             <Brain className="h-5 w-5" />
           </div>
           <div className="leading-tight">
-            <div className="text-sm font-semibold text-slate-900">Decision Memory</div>
-            <div className="text-[11px] text-slate-500">Decide · Predict · Learn</div>
+            <div className="text-sm font-semibold text-slate-900">결정 메모리</div>
+            <div className="text-[11px] text-slate-500">결정 · 예측 · 학습</div>
           </div>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-1">
@@ -42,7 +42,7 @@ export default function AppLayout() {
           })}
         </nav>
         <div className="px-6 py-4 border-t border-slate-100 text-[11px] text-slate-400">
-          A journal of how you decide.
+          당신의 결정 방식을 기록합니다.
         </div>
       </aside>
 
@@ -52,7 +52,7 @@ export default function AppLayout() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-white">
             <Brain className="h-4 w-4" />
           </div>
-          <span className="text-sm font-semibold">Decision Memory</span>
+          <span className="text-sm font-semibold">결정 메모리</span>
           <div className="ml-auto flex gap-1">
             {nav.map((item) => {
               const active = item.to === "/" ? location.pathname === "/" : location.pathname.startsWith(item.to);

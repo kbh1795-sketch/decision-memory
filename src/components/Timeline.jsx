@@ -8,9 +8,9 @@ export default function Timeline({ decision }) {
       date: decision.decision_date,
       icon: ClipboardList,
       tone: "slate",
-      title: "Decision made",
+      title: "결정 완료",
       body: decision.title,
-      detail: decision.confidence != null ? `Confidence ${decision.confidence}%` : null,
+      detail: decision.confidence != null ? `신뢰도 ${decision.confidence}%` : null,
     });
   }
   if (decision.expected_metrics && decision.expected_metrics.length) {
@@ -18,7 +18,7 @@ export default function Timeline({ decision }) {
       date: decision.decision_date,
       icon: CalendarClock,
       tone: "slate",
-      title: "Expectation recorded",
+      title: "예상 기록",
       body: decision.expected_metrics.map((m) => `${m.metric_name}: ${m.expected_value}${m.unit ? " " + m.unit : ""}`).join("  ·  "),
     });
   }
@@ -27,7 +27,7 @@ export default function Timeline({ decision }) {
       date: decision.review_date,
       icon: CalendarClock,
       tone: "amber",
-      title: "Review date reached",
+      title: "검토일 도래",
       body: null,
     });
   }
@@ -36,7 +36,7 @@ export default function Timeline({ decision }) {
       date: decision.outcome.reviewed_at.slice(0, 10),
       icon: CheckCircle2,
       tone: "emerald",
-      title: "Outcome recorded",
+      title: "결과 기록",
       body: decision.outcome.actual_outcome,
       detail: decision.outcome.actual_metrics && decision.outcome.actual_metrics.length
         ? decision.outcome.actual_metrics.map((m) => `${m.metric_name}: ${m.actual_value}${m.unit ? " " + m.unit : ""}`).join("  ·  ")
@@ -48,7 +48,7 @@ export default function Timeline({ decision }) {
       date: decision.ai_review.generated_at.slice(0, 10),
       icon: Sparkles,
       tone: "violet",
-      title: "AI review",
+      title: "AI 검토",
       body: decision.ai_review.lesson,
     });
   }
