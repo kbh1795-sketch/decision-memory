@@ -1,0 +1,62 @@
+{
+  "name": "HistoryReport",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "dimension",
+        "profile",
+        "insufficient"
+      ]
+    },
+    "dimension": {
+      "type": "string"
+    },
+    "section": {
+      "type": "string"
+    },
+    "area": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "decision_id": {
+            "type": "string"
+          },
+          "decision_title": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "evidence_count": {
+      "type": "number"
+    },
+    "strength": {
+      "type": "string",
+      "enum": [
+        "weak",
+        "emerging",
+        "strong"
+      ]
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "type",
+    "title"
+  ]
+}

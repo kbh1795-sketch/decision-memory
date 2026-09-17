@@ -18,6 +18,9 @@ import NewDecision from "@/pages/NewDecision";
 import DecisionDetail from "@/pages/DecisionDetail";
 import ReviewOutcome from "@/pages/ReviewOutcome";
 import Insights from "@/pages/Insights";
+import ImportDecisions from "@/pages/ImportDecisions";
+import DecisionProfile from "@/pages/DecisionProfile";
+import DecisionChains from "@/pages/DecisionChains";
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -56,6 +59,9 @@ const AuthenticatedApp = () => {
           <Route path="/decisions/:id" element={<DecisionDetail />} />
           <Route path="/decisions/:id/review" element={<ReviewOutcome />} />
           <Route path="/insights" element={<Insights />} />
+          <Route path="/import" element={<ImportDecisions />} />
+          <Route path="/profile" element={<DecisionProfile />} />
+          <Route path="/chains" element={<DecisionChains />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

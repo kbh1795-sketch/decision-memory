@@ -1,10 +1,13 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { Brain, LayoutDashboard, PlusCircle, LineChart } from "lucide-react";
+import { Brain, LayoutDashboard, PlusCircle, LineChart, Upload, Fingerprint, GitBranch } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const nav = [
   { label: "대시보드", to: "/", icon: LayoutDashboard },
   { label: "새 결정", to: "/new", icon: PlusCircle },
+  { label: "과거 가져오기", to: "/import", icon: Upload },
+  { label: "결정 프로필", to: "/profile", icon: Fingerprint },
+  { label: "결정 체인", to: "/chains", icon: GitBranch },
   { label: "결정 패턴", to: "/insights", icon: LineChart },
 ];
 
