@@ -1,62 +1,318 @@
-# Base44 Project
+# Decision Memory
 
-Use this repository to run and edit the app locally, then publish changes back through Base44.
+Decision Memory is an AI-assisted decision tracking application designed to help individuals and teams learn from past decisions.
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+The application records:
 
-## Prerequisites
+* what was decided,
+* why the decision was made,
+* what assumptions were made,
+* what outcome was expected,
+* what actually happened.
 
-1. Clone the repository using the project's Git URL.
-2. Navigate to the project directory.
-3. Install dependencies: `npm install`.
-4. Install the Base44 CLI: `npm install -g base44@latest`.
-5. Install [Deno](https://docs.deno.com/runtime/getting_started/installation/) — the local Base44 backend runs on it.
+AI then compares expectations with actual outcomes and identifies recurring patterns such as estimation errors, repeated failed assumptions, overconfidence, and decision reversals.
 
-Run `base44 --help` (or see the [CLI reference](https://docs.base44.com/developers/references/cli/commands/introduction)) for the full command surface.
+The core workflow is:
+
+**Decision → Prediction → Outcome → AI Analysis → Pattern**
+
+---
+
+## Key Features
+
+### Decision Tracking
+
+Record important decisions together with:
+
+* decision context,
+* options considered,
+* selected option,
+* reasoning,
+* assumptions,
+* expected outcome,
+* expected metrics,
+* confidence level,
+* review date.
+
+### Outcome Review
+
+After the review date, record the actual outcome and compare it with the original prediction.
+
+Examples:
+
+* Expected completion time: 3 days
+
+* Actual completion time: 8 days
+
+* Expected users: 100
+
+* Actual users: 62
+
+### AI Decision Analysis
+
+AI evaluates individual decisions by comparing:
+
+* expected vs actual outcomes,
+* correct vs incorrect assumptions,
+* predicted vs actual metrics,
+* original confidence vs result.
+
+### Decision Pattern Detection
+
+Across multiple historical decisions, the application identifies recurring patterns such as:
+
+* systematic underestimation of project duration,
+* repeated overestimation of expected performance,
+* frequently incorrect assumptions,
+* recurring reasons for changing direction,
+* differences between decision categories.
+
+Every generated insight should be linked to the decisions that support it.
+
+---
+
+## Tech Stack
+
+This project is built with Base44 and uses:
+
+* React
+* JavaScript / TypeScript
+* Base44 Backend
+* Base44 Database
+* Base44 Authentication
+* Base44 AI integrations
+
+Development and source control are connected through GitHub.
+
+---
+
+## Local Development
+
+### Requirements
+
+Install:
+
+* Node.js
+* npm
+* Base44 CLI
+* Deno
+
+Install the Base44 CLI:
+
+```bash
+npm install -g base44@latest
+```
+
+Deno installation instructions:
+
+https://docs.deno.com/runtime/getting_started/installation/
+
+---
+
+## Setup
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+```
+
+Enter the project directory:
+
+```bash
+cd <project-directory>
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Login to Base44:
+
+```bash
+base44 login
+```
+
+Link the local repository to the Base44 application:
+
+```bash
+base44 link
+```
+
+Each fresh clone must run `base44 link`.
+
+The command creates:
+
+```text
+base44/.app.jsonc
+```
+
+which links the local repository to the corresponding Base44 application.
+
+---
 
 ## Run Locally
 
-Three commands, from the project root:
+Run:
 
 ```bash
-base44 login   # one-time per machine
-base44 link    # one-time per clone
-base44 dev     # local backend + frontend together
+base44 dev
 ```
 
-Open the frontend URL that `base44 dev` prints (typically `http://localhost:5173`).
+Base44 will start both:
 
-Notes:
+* the local backend,
+* the frontend development server.
 
-- **Every fresh clone needs `base44 link`.** It writes `base44/.app.jsonc` (the app-id pointer), which is deliberately gitignored. Your app id is in the Builder URL (`app.base44.com/apps/<id>/...`); `base44 link --help` shows the non-interactive flags.
-- **`base44 dev` runs the frontend for you** (via `site.serveCommand` in this repo's `base44/config.jsonc`) — never run `npm run dev` yourself: alone it serves a UI with no backend behind it (`[base44] Proxy not enabled`, every `/api` call fails), and alongside `base44 dev` the second Vite silently takes the next port and you end up looking at the wrong one.
-- **The app must be published at least once for the UI to load under `base44 dev`.** The frontend boots by fetching app settings from the hosted app; before the first publish that fails and every page redirects to login. The local API works regardless.
-- Entities, functions, and auth run locally — entity data is **in-memory only**, wiped when `base44 dev` restarts. Everything else (Core integrations, OAuth login) is forwarded to your deployed app. Full breakdown: [Local development overview](https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview).
+Open the URL printed in the terminal.
 
-## Frontend Only, Hosted Backend
+It is typically:
 
-To work on just the frontend against your app's live hosted backend:
+```text
+http://localhost:5173
+```
+
+Do not run:
+
+```bash
+npm run dev
+```
+
+separately.
+
+The Base44 backend proxy will not be available correctly when the frontend is launched independently.
+
+---
+
+## Local Data
+
+When using:
+
+```bash
+base44 dev
+```
+
+entities, functions, and authentication run locally.
+
+Local entity data is stored in memory and is deleted when the development server restarts.
+
+This is useful for testing Decision Memory without modifying production data.
+
+---
+
+## Use Hosted Backend
+
+To run the local frontend while using the deployed Base44 backend:
 
 ```bash
 base44 dev --remote
 ```
 
-⚠️ In this mode writes go to your app's **production data** — plain `base44 dev` keeps everything local.
+Be careful:
 
-## Publish Your Changes
+**Writes in this mode affect production data.**
 
-After pushing your changes to git, open the Base44 dashboard and publish the app:
+Use standard `base44 dev` for normal development and testing.
+
+---
+
+## Git and Base44 Workflow
+
+This repository is connected to the Base44 Builder through Git.
+
+Typical workflow:
+
+```bash
+git add .
+git commit -m "Update decision analysis feature"
+git push
+```
+
+Changes pushed to the repository are reflected in the Base44 Builder.
+
+After pushing changes, open the Base44 dashboard:
 
 ```bash
 base44 dashboard open
 ```
 
-This repo syncs to Base44 through git, so publish from the dashboard rather than `base44 deploy` — a CLI deploy ships your local tree directly, bypassing the sync, and the deployed state silently diverges from the repo.
+Publish the application from the dashboard.
 
-## Docs & Support
+Avoid using:
 
-GitHub integration: [https://docs.base44.com/developers/app-code/local-development/github](https://docs.base44.com/developers/app-code/local-development/github)
+```bash
+base44 deploy
+```
 
-Local development: [https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview](https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview)
+for this repository because direct CLI deployment can cause the deployed version to diverge from the Git-synchronised Base44 project.
 
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+---
+
+## Project Structure
+
+The application concept is organised around several core data objects:
+
+```text
+User
+Workspace
+Decision
+Option
+Assumption
+ExpectedMetric
+Outcome
+ActualMetric
+Insight
+```
+
+The most important relationship is:
+
+```text
+Decision
+   ↓
+Expected Outcome
+   ↓
+Actual Outcome
+   ↓
+AI Comparison
+   ↓
+Cross-Decision Pattern Detection
+```
+
+---
+
+## Development Priority
+
+The project currently focuses on:
+
+1. Recording decisions
+2. Recording expectations and assumptions
+3. Reviewing actual outcomes
+4. Comparing expected vs actual results
+5. AI-generated decision reviews
+6. Historical decision analysis
+7. Cross-decision pattern detection
+8. Evidence-backed personal or team decision profiles
+
+The objective is not to build a generic note-taking application.
+
+Decision Memory is designed to answer:
+
+> **What did we believe when we made the decision, what actually happened, and what can we learn from the difference?**
+
+---
+
+## Base44 Documentation
+
+GitHub integration:
+
+https://docs.base44.com/developers/app-code/local-development/github
+
+Local development:
+
+https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview
+
+Support:
+
+https://app.base44.com/support
