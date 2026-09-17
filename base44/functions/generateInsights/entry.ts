@@ -35,7 +35,7 @@ export default async function(req) {
       .map((a) => `- "${a.text}": correct ${a.correct}, partially ${a.partially}, incorrect ${a.incorrect}, unknown ${a.unknown} (across ${a.total} decisions)`)
       .join('\n');
 
-    const prompt = `You are a decision-pattern analyst. You are given structured data from ${reviewed.length} reviewed decisions. Identify ONLY patterns that are clearly supported by the data. Do NOT fabricate insights. If data is insufficient for a claim, omit it. Be quantitative and specific. Do NOT give motivational advice.
+    const prompt = `You are a decision-pattern analyst. You are given structured data from ${reviewed.length} reviewed decisions. Identify ONLY patterns that are clearly supported by the data. Do NOT fabricate insights. If data is insufficient for a claim, omit it. Be quantitative and specific. Do NOT give motivational advice. Write ALL output (titles and descriptions) in Korean (한국어).
 
 METRIC COMPARISONS (expected vs actual):
 ${metricLines || '(none)'}
@@ -51,8 +51,8 @@ ${assumptionLines || '(none)'}
 
 Generate a JSON object with an array "patterns". Each pattern has:
 - type: one of "estimation_bias", "confidence_calibration", "category_performance", "assumption_failure", "cost_bias", "decision_speed", "other"
-- title: a short headline (one sentence)
-- description: 1-2 sentences with the specific numbers/evidence
+- title: a short headline in Korean (one sentence)
+- description: 1-2 sentences in Korean with the specific numbers/evidence
 - evidence_count: integer number of decisions supporting this
 
 Only include patterns with evidence_count >= 2. Maximum 6 patterns. If no pattern is well-supported, return an empty array.`;

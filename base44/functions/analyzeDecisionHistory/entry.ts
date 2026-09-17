@@ -67,7 +67,7 @@ export default async function(req) {
    parent: ${d.parent || '—'} | related: ${d.related || '—'}`
     ).join('\n');
 
-    const prompt = `You are a rigorous decision-pattern analyst examining a person's REAL retrospective decision records. Cite ONLY decisions that appear below, by their D-ref (e.g. D3). Never fabricate decisions, numbers, or confidence values. If a confidence was recorded as "unknown", never invent a number. Do not give motivational or psychological advice. Analyse observable decision behaviour only. Every finding must cite at least one D-ref.
+    const prompt = `You are a rigorous decision-pattern analyst examining a person's REAL retrospective decision records. Cite ONLY decisions that appear below, by their D-ref (e.g. D3). Never fabricate decisions, numbers, or confidence values. If a confidence was recorded as "unknown", never invent a number. Do not give motivational or psychological advice. Analyse observable decision behaviour only. Every finding must cite at least one D-ref. Write ALL output (titles, descriptions, area, reason) in Korean (한국어).
 
 DECISION RECORDS:
 ${digestLines}

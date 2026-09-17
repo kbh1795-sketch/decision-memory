@@ -27,7 +27,7 @@ export default async function(req) {
       .map((a, i) => `${i + 1}. "${a.text}" — judged: ${a.result || 'unknown'}`)
       .join('\n');
 
-    const prompt = `You are an analyst reviewing a single decision against its actual outcome. Be concise, specific and quantitative. Do NOT give generic motivational advice. Do NOT rewrite the user's text.
+    const prompt = `You are an analyst reviewing a single decision against its actual outcome. Be concise, specific and quantitative. Do NOT give generic motivational advice. Do NOT rewrite the user's text. Write ALL output in Korean (한국어).
 
 DECISION TITLE: ${decision.title}
 CONTEXT: ${decision.context || '(none)'}
@@ -44,12 +44,12 @@ ACTUAL OUTCOME (user summary): ${decision.outcome.actual_outcome || '(none)'}
 USER'S EXPLANATION OF DIFFERENCE: ${decision.outcome.explanation || '(none)'}
 USER'S RESULT RATING: ${decision.outcome.result}
 
-Produce a structured review with these exact fields:
-- what_happened: one or two sentences stating what actually happened, with the key numbers.
-- largest_error: the single largest forecasting/estimation error, quantified as a percentage when possible.
-- incorrect_assumption: the assumption that proved most wrong (or "partially correct"), quoted. If none, say so.
-- predicted_correctly: what was predicted accurately.
-- lesson: one sentence on the real forecasting error (not generic advice).`;
+Produce a structured review with these exact fields, ALL written in Korean:
+- what_happened: 실제 어떤 일이 있었는지 핵심 숫자와 함께 1~2문장.
+- largest_error: 가장 큰 예측/추정 오류 (가능하면 백분율로 수치화).
+- incorrect_assumption: 가장 틀린(또는 부분적으로 틀린) 가정을 인용. 없으면 없다고 명시.
+- predicted_correctly: 정확하게 예측한 부분.
+- lesson: 실제 예측 오류에 대한 한 문장 교훈 (일반적인 조언 금지).`;
 
     const llm = await base44.asServiceRole.integrations.Core.InvokeLLM({
       prompt,
